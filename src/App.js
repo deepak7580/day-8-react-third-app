@@ -1,23 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useState } from "react";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <SocialPost post="Mumbai" />
+      <SocialPost post="Visakhapatnam" />
+    </div>
+  );
+}
+
+function SocialPost({ post }) {
+  const [commentList, setCommentList] = useState([]);
+  const [inputComment, setInputComment] = useState("");
+  const updateInputComment = (e) => {
+    setInputComment(e.target.value);
+  };
+  const addNewComment = () => {
+    const newCommentList = [inputComment, ...commentList];
+    setCommentList(newCommentList);
+
+    setInputComment("");
+  };
+
+  return (
+    <div>
+      <h1 className="bg-dark text-light p-5 text-center mb-2">{post}</h1>
+
+      {commentList.map((item, index) => (
+        <div key={index} className="alert-secondary p-1 mb-1">
+          {item}
+        </div>
+      ))}
+
+      <input
+        type="text"
+        value={inputComment}
+        onChange={updateInputComment}
+        className="form-control form-control-sm mb-1"
+        placeholder="Add your comment..."
+      />
+      <input
+        type="button"
+        value="Submit"
+        onClick={addNewComment}
+        className="btn btn-sm alert-secondary w-100 mb-3"
+      />
     </div>
   );
 }
